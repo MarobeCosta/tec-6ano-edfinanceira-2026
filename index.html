@@ -1,0 +1,609 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Educação Financeira · 6º ano · V02.02</title><style>#tela{position:fixed;inset:0;z-index:80;background:rgba(10,20,30,.92);display:flex;align-items:center;justify-content:center;padding:16px}
+#tela.fora{display:none}
+#tela .cx{background:#fff;color:#13202B;border:6px solid #FFBF00;border-radius:20px;padding:18px;max-width:620px;width:100%}
+#tela h2{margin:0 0 12px;font:900 26px Arial}
+#tela .cp{display:flex;align-items:center;gap:12px;width:100%;margin:0 0 10px;padding:10px 12px;border:4px solid var(--b);background:var(--f);border-radius:14px;font:900 20px Arial;color:#13202B;cursor:pointer;text-align:left}
+#tela .cp .n{width:34px;height:34px;border-radius:50%;background:var(--b);color:#fff;display:flex;align-items:center;justify-content:center;flex:none}
+#tela .cp .e{font-size:28px}
+#tela .cp small{display:block;font:800 15px Arial;color:#455A64}
+#tela .cp.tr{opacity:.6;cursor:not-allowed}
+#tela .cp .tk{width:30px;height:30px;border-radius:7px;border:3px solid #90A4AE;background:#fff;color:#2E7D32;
+  display:flex;align-items:center;justify-content:center;font:900 22px Arial;margin-left:auto;flex:none}
+#tela .cp.on{background:#0D47A1;color:#fff;border-color:#FFBF00}
+#tela .cp.on small{color:#BBDEFB}
+#tela .cp.on .tk{border-color:#2E7D32;border-width:4px}
+#tela .av{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:6px;padding:14px;
+  border:4px solid #1B5E20;border-radius:14px;background:#2E7D32;color:#fff;font:900 22px Arial;cursor:pointer;
+  animation:avP 1.2s ease-in-out infinite}
+*{box-sizing:border-box}
+body{margin:0;background:#13202B;color:#fff;font-family:Arial;min-height:100vh}
+/* CLD-226 · a linha fixa de topo é UMA linha só, de borda a borda. Sem flex-wrap:
+   com wrap o navegador prefere QUEBRAR a encolher, e o topo vira duas linhas,
+   comendo altura do conteúdo. Quem cede espaço é o TÍTULO (ellipsis); versão,
+   contador e ano nunca encolhem. Mesma lição do CLD-088 da Central. */
+#topo{position:fixed;top:0;left:0;right:0;z-index:90;display:flex;align-items:center;gap:8px;flex-wrap:nowrap;background:#4E342E;border-bottom:5px solid #FFBF00;padding:7px 10px}
+#topo .tt{flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#topo .ver,#topo .ct,#topo .an{flex:0 0 auto;white-space:nowrap}
+#topo .ver{background:#AD1457;border:3px solid #fff;border-radius:10px;font:900 15px Arial;padding:1px 9px}
+#topo .tt{font:900 20px Arial}
+#topo .ct{margin-left:auto;background:#37474F;color:#fff;border:3px solid #fff;border-radius:10px;font:900 15px Arial;padding:2px 10px;white-space:nowrap}
+#topo .an{background:#1565C0;border:3px solid #fff;border-radius:10px;font:900 16px Arial;padding:2px 10px}
+/* CLD-225 · z-index:auto: o corpo nunca passa por cima das linhas fixas.
+   Herdou 80 do molde da tela de escolha e cobria o rodape, comendo o clique. */
+#tela{position:relative;inset:auto;display:flex;align-items:flex-start;justify-content:center;padding:16px;min-height:60vh;z-index:auto}
+#tela .cx{max-width:620px}
+.passo{display:flex;gap:8px;margin:0 0 10px;align-items:center;font:900 15px Arial;color:#455A64;flex-wrap:wrap}
+.passo i{width:28px;height:28px;border-radius:50%;background:#CFD8DC;color:#13202B;display:flex;align-items:center;
+  justify-content:center;font-style:normal;border:3px solid #90A4AE;font-size:16px}
+.passo i.on{background:#0D47A1;color:#fff;border-color:#FFBF00}
+.passo i.ok{background:#2E7D32;color:#fff;border-color:#1B5E20}
+.volta{display:inline-flex;align-items:center;gap:6px;border:4px solid #546E7A;background:#ECEFF1;color:#13202B;
+  border-radius:12px;font:900 17px Arial;padding:7px 13px;margin:0 0 12px;cursor:pointer}
+.dv{display:inline-block;background:#E3F2FD;border:3px solid #1565C0;border-radius:10px;
+  font:900 13px Arial;color:#0D47A1;padding:1px 7px;margin-top:4px}
+.gt{font:900 15px Arial;color:#455A64;margin:14px 0 7px;display:flex;align-items:center;gap:7px}
+.gt::after{content:"";flex:1;height:4px;background:#CFD8DC;border-radius:2px}
+.jamarc{display:inline-block;background:#E8F5E9;border:3px solid #2E7D32;border-radius:10px;
+  font:900 14px Arial;color:#1B5E20;padding:1px 8px;margin:0 0 10px}
+#tela .cp small{line-height:1.3}
+#tela .cp .tk.lk{background:#ECEFF1;border-color:#B0BEC5;border-style:solid;font-size:20px;line-height:1;color:#546E7A}/* CLD-226 · 29/10/2026 · as linhas fixas vão de borda a borda e têm COR PRÓPRIA
+   (#4E342E marrom-café), nunca o mesmo azul do corpo só que mais escuro.
+   Elas são moldura: não têm relação com o que está entre elas. */
+#rodape{position:fixed;left:0;right:0;bottom:0;z-index:90;display:flex;align-items:center;gap:8px;background:#4E342E;border-top:5px solid #FFBF00;padding:7px 12px}
+#rodape .rE,#rodape .rD{flex:0 0 auto}
+#rodape .rM{flex:1;text-align:center;color:#78909C;font:800 14px Arial;line-height:1.2}
+#rodape button{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:0;line-height:1.05;min-width:86px;min-height:50px;padding:5px 12px;border:4px solid;border-radius:13px;font:900 17px Arial;cursor:pointer}
+#rodape button .ic{font-size:22px;line-height:1}
+#rodape #btVolta{background:#ECEFF1;color:#13202B;border-color:#546E7A}
+/* CLD-225 · o pulsar do rodape e de BRILHO, nao de escala: escala move o alvo do dedo
+   e o botao escapa do toque (HGov H.09.17). */
+#rodape #btAvanca{background:#2E7D32;color:#fff;border-color:#1B5E20;animation:avBrilho 1.3s ease-in-out infinite}
+@keyframes avBrilho{0%,100%{box-shadow:0 0 0 0 rgba(255,191,0,0)}50%{box-shadow:0 0 0 6px rgba(255,191,0,.55)}}
+#rodape button[disabled]{opacity:.45;cursor:not-allowed;animation:none}
+@media (max-width:620px){#rodape .rM{display:none}#rodape{gap:6px;padding:6px 8px}#rodape .rE,#rodape .rD{flex:1}#rodape button{width:100%;font-size:16px}}
+.leg3{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 10px}.leg3 span{font:900 14px Arial;border-radius:10px;padding:2px 9px;border:3px solid}.leg3 .l1{background:#0D47A1;color:#fff;border-color:#FFBF00}.leg3 .l2{background:#fff;color:#13202B;border-color:#546E7A}.leg3 .l3{background:#ECEFF1;color:#546E7A;border-color:#B0BEC5}.pg{display:none}.pg.on{display:block}
+.rod{text-align:center;color:#78909C;font:800 14px Arial;padding:14px 12px 24px}
+@keyframes avP{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+@media (max-width:620px){#topo{gap:6px;padding:6px 8px}#topo .tt{font-size:16px}#topo .ver{font-size:13px;padding:1px 7px}#topo .ct{font-size:13px;padding:1px 7px}#topo .an{font-size:14px;padding:1px 7px}#tela{padding:10px}}
+/* CLD-226 · o título NÃO some em tela estreita: ele encolhe com retículo (ellipsis).
+   Sumir deixa a linha com buraco; encolher mantém a linha cheia e a informação no lugar.
+   _OFF: @media (max-width:430px){#topo .tt{display:none}} */
+@media (max-width:430px){#topo .tt{font-size:15px}}
+/* ===== PARADAS DE EDUCAÇÃO FINANCEIRA · visual =====
+   N.02.04.04_CENTRAL-DE-JOGOS_001 · CLD-131 · 27/10/2026
+
+   REGRAS DO MARCOS QUE ESTE CSS CUMPRE:
+   · piso de 16 px de letra · piso de 20 px de emoji
+   · borda GROSSA em todo card, nenhum lado fino
+   · alternativas uma embaixo da outra, nunca lado a lado
+   · 1 frase por linha, à esquerda
+*/
+
+.efTela{position:fixed;inset:0;z-index:2147482800;display:flex;align-items:flex-start;
+  justify-content:center;padding:14px;overflow:auto;background:rgba(8,14,20,.9)}
+.efCx{width:100%;max-width:760px;background:#FFFDF7;border:6px solid #2E7D32;border-radius:20px;
+  overflow:hidden;font:700 17px/1.45 Arial,Helvetica,sans-serif;color:#13202B}
+
+/* ---- topo ---- */
+.efTop{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:10px 12px;
+  background:#13202B;color:#fff;border-bottom:5px solid #FFBF00}
+.efSel{background:#FFBF00;color:#13202B;border:4px solid #13202B;border-radius:999px;
+  padding:3px 12px;font:900 15px Arial}
+.efTt{font:900 20px Arial;flex:1 1 auto}
+.efTp{background:#1565C0;border:4px solid #fff;border-radius:999px;padding:3px 12px;font:900 15px Arial}
+.efSair{background:#C62828;color:#fff;border:4px solid #fff;border-radius:999px;
+  padding:5px 16px;font:900 16px Arial;cursor:pointer}
+.efSair:hover,.efSair:focus{background:#8E0000;outline:4px solid #FFBF00}
+
+.efCorpo{padding:14px}
+.efPasso{display:flex;flex-direction:column;gap:10px}
+/* 1 frase por linha, à esquerda. Nunca duas ideias na mesma linha. */
+.efL{margin:0;font:700 18px/1.45 Arial;text-align:left}
+.efL2{color:#37474F;font-size:17px}
+
+/* ---- falas do BIT (azul) e da B.IA (rosa) ---- */
+.efFala{display:flex;align-items:flex-start;gap:8px;width:80%;
+  border:5px solid #2E9BE0;border-left-width:12px;border-radius:14px;padding:9px 12px;background:#F2F9FF}
+.efBia{border-color:#FF5FA2;background:#FFF2F8}
+.efFala .q{font-size:22px;line-height:1}
+.efFala b{font:900 16px Arial;margin-right:4px}
+.efFala .tx{font:700 17px/1.4 Arial}
+
+/* ---- botões ---- */
+.efBt{align-self:flex-start;cursor:pointer;border:5px solid #13202B;border-radius:14px;
+  padding:10px 24px;font:900 19px Arial;color:#fff;background:#1565C0}
+.efBtV{background:#2E7D32}
+.efBt:hover,.efBt:focus{outline:4px solid #FFBF00}
+
+/* ================= P1 · a mesa ================= */
+.efMesa{display:flex;flex-wrap:wrap;gap:12px}
+.efSaco{flex:1 1 230px;min-width:220px;border:5px solid #6A1B9A;border-radius:16px;overflow:hidden;background:#F6F0FB}
+.efSacoT{background:#6A1B9A;color:#fff;font:900 17px Arial;padding:7px 10px;text-align:center}
+.efLista{display:flex;flex-direction:column;gap:7px;padding:9px}
+
+/* cada item é uma linha própria, nunca dois lado a lado */
+.efItem{display:flex;align-items:center;gap:9px;width:100%;cursor:pointer;text-align:left;
+  background:#fff;border:5px solid #13202B;border-radius:13px;padding:7px 10px;font:900 17px Arial;color:#13202B}
+.efItem .e{font-size:28px;line-height:1}
+.efItem .n{flex:1 1 auto}
+.efItem .v{font:900 16px Arial;color:#2E7D32}
+.efItem.peg{border-color:#FFBF00;background:#FFF8E1;transform:scale(1.03)}
+.efItem.errou{border-color:#C62828;background:#FFEBEE;animation:efTrema .35s}
+@keyframes efTrema{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+
+.efCols{flex:2 1 300px;display:flex;flex-wrap:wrap;gap:10px}
+.efCol{flex:1 1 170px;min-width:160px;border:5px solid #2E7D32;border-radius:16px;overflow:hidden;
+  background:#fff;display:flex;flex-direction:column;cursor:pointer}
+.efCol.sobre{background:#FFF8E1;outline:5px dashed #FFBF00}
+.efColT{color:#fff;font:900 17px Arial;padding:7px 8px;text-align:center}
+.efColD{flex:1 1 auto;min-height:94px;padding:8px;display:flex;flex-direction:column;gap:6px}
+.efPosto{display:flex;align-items:center;gap:7px;border:4px solid #B0BEC5;border-radius:11px;
+  padding:5px 8px;background:#F7F9FA;font:900 16px Arial}
+.efPosto .e{font-size:24px;line-height:1}
+.efPosto .n{flex:1 1 auto}
+.efPosto .v{color:#2E7D32;font-size:15px}
+
+/* a célula do total: é ela que mostra o que uma planilha faz */
+.efTot{display:flex;justify-content:space-between;align-items:center;gap:8px;
+  background:#13202B;color:#fff;padding:8px 10px;border-top:5px solid #FFBF00}
+.efTotR{font:900 15px Arial;opacity:.85}
+.efTotV{font:900 21px "Courier New",monospace;color:#FFBF00}
+.efTotV.pisca{animation:efPisca .7s ease-out}
+@keyframes efPisca{0%{transform:scale(1)}35%{transform:scale(1.3);color:#fff}100%{transform:scale(1)}}
+
+/* ================= P2 · a célula da conta ================= */
+.efCel{border:6px solid #13202B;border-radius:18px;overflow:hidden;background:#fff;text-align:center}
+.efCelR{background:#13202B;color:#fff;font:900 16px Arial;padding:6px}
+.efCelV{font:900 46px "Courier New",monospace;color:#C62828;padding:12px 8px 4px}
+.efCelV.pisca{animation:efPisca2 .8s ease-out}
+@keyframes efPisca2{0%{transform:scale(1)}30%{transform:scale(1.22);color:#2E7D32}100%{transform:scale(1)}}
+.efCelF{font:700 15px Arial;color:#546E7A;padding:0 10px 10px}
+
+/* as atitudes, uma embaixo da outra, nunca lado a lado */
+.efAtit{display:flex;flex-direction:column;gap:8px}
+.efAt{display:flex;align-items:center;gap:10px;width:100%;text-align:left;cursor:pointer;
+  background:#fff;border:5px solid #13202B;border-radius:14px;padding:9px 12px;font:900 17px Arial;color:#13202B}
+.efAt .e{font-size:28px;line-height:1}
+.efAt .n{flex:1 1 auto}
+.efAt .d{font:900 17px "Courier New",monospace}
+.efAt:hover:not([disabled]),.efAt:focus{outline:4px solid #FFBF00}
+.efAt[disabled]{cursor:default}
+.efAt.simAt{border-color:#2E7D32;background:#E8F5E9}
+.efAt.simAt .d{color:#2E7D32}
+.efAt.naoAt{border-color:#90A4AE;background:#ECEFF1;opacity:.8}
+.efAt.naoAt .d{color:#78909C}
+
+/* ---- o aviso que explica a escolha ---- */
+.efAviso{min-height:48px;border:5px solid #FFBF00;border-radius:14px;padding:9px 12px;
+  background:#FFFDE7;font:700 17px/1.4 Arial}
+.efAviso:empty{display:none}
+.efSim{color:#1B5E20;font-weight:900}
+.efNao{color:#B71C1C;font-weight:900}
+
+/* ---- fechamento ---- */
+.efFimT{background:#2E7D32;color:#fff;border:5px solid #13202B;border-radius:14px;
+  padding:8px 16px;font:900 21px Arial;align-self:flex-start}
+.efPlan{border:5px solid #1565C0;border-radius:16px;overflow:hidden;background:#fff}
+.efPlanT{background:#1565C0;color:#fff;font:900 17px Arial;padding:7px 10px}
+.efPlan table{width:100%;border-collapse:collapse;font:900 16px Arial}
+.efPlan th,.efPlan td{border:3px solid #B0BEC5;padding:7px 9px;text-align:left}
+.efPlan th{background:#E3F2FD}
+.efPlan td.v{font-family:"Courier New",monospace;color:#2E7D32;text-align:right}
+.efPlan tr.tot td{background:#13202B;color:#fff;border-color:#13202B}
+.efPlan tr.tot td.v{color:#FFBF00}
+.efPlanF{font:700 15px Arial;padding:8px 10px;background:#F7F9FA;border-top:3px solid #B0BEC5}
+.efPlanF code{background:#13202B;color:#FFBF00;border-radius:6px;padding:2px 7px;font-size:15px}
+
+/* ---- telas pequenas: nada encolhe abaixo do piso ---- */
+@media (max-width:560px){
+  .efCx{font-size:16px}
+  .efTt{font-size:18px}
+  .efCelV{font-size:36px}
+  .efCols{flex-direction:column}
+  .efFala{width:100%}
+}
+@media (prefers-reduced-motion:reduce){
+  .efTotV.pisca,.efCelV.pisca,.efItem.errou{animation:none}
+}
+</style></head><body><div id="topo"><span class="ver">V02.02</span><span class="tt">💰 Educação Financeira</span><span class="ct" id="contador">tela 1 de 3</span><span class="an">6º ano</span></div><div id="tela"><div class="cx"><div class="pg" id="p1"><div class="passo"><i class="on">1</i>área <i>2</i>componente <i>3</i>jogo</div><div class="jamarc">✅ Já deixei marcado para você. Só clique em Avançar.</div><h2>📚 Área de conhecimento</h2><button type="button" class="cp tr" style="--b:#6A1B9A;--f:#F3E5F5"><span class="n">1</span><span class="e">🗣️</span><span>Linguagens<small>Português · Arte · Ed. Física · Inglês<br>+ Orientação de Estudos de LP<br>🔒 em breve</small></span><i class="tk lk">🔒</i></button><button type="button" class="cp on" style="--b:#2E7D32;--f:#E8F5E9"><span class="n">2</span><span class="e">🔬</span><span>Ciências da Natureza e Matemática<small>Ciências · Matemática<br>+ Tecnologia · Robótica · Orientação de Estudos<br>+ Práticas Experimentais · Educação Financeira<br>✅ escolhida para esta aula</small></span><i class="tk">✓</i></button><button type="button" class="cp tr" style="--b:#00838F;--f:#E0F7FA"><span class="n">3</span><span class="e">🌎</span><span>Ciências Humanas e Sociais<small>Geografia · História<br>+ Projeto de Vida<br>🔒 em breve</small></span><i class="tk lk">🔒</i></button><button type="button" class="cp tr" style="--b:#AD1457;--f:#FCE4EC"><span class="n">4</span><span class="e">🧩</span><span>Projetos integradores<br>e temas transversais<small>o que não cabe em uma área só<br>🔒 em breve</small></span><i class="tk lk">🔒</i></button><!-- DESATIVADO 29/10/2026 CLD-225 · motivo: o Avançar foi para a linha fixa do rodape (HGov H.11.07). Era: <button class="av" onclick="vai(2)">Avancar</button> --></div><div class="pg" id="p2"><!-- DESATIVADO 29/10/2026 CLD-225 · o voltar foi para o canto esquerdo do rodape fixo. --><div class="passo"><i class="ok">✓</i>área <i class="on">2</i>componente <i>3</i>jogo</div><div class="jamarc">✅ Já deixei marcado para você. Só clique em Avançar.</div><h2>🔬 Ciências da Natureza e Matemática</h2><div class="leg3"><span class="l1">✅ escolhido para esta aula</span><span class="l2">👆 aberto · pode entrar</span><span class="l3">🔒 em breve</span></div><div class="gt">componentes da Base</div><button type="button" class="cp tr" style="--b:#2E7D32;--f:#E8F5E9"><span class="n">1</span><span class="e">🧪</span><span>Ciências<small>🔒 em breve</small></span><i class="tk lk">🔒</i></button><button type="button" class="cp tr" style="--b:#E65100;--f:#FFF3E0"><span class="n">2</span><span class="e">➗</span><span>Matemática<small>🔒 em breve</small></span><i class="tk lk">🔒</i></button><div class="gt">componentes da Parte Diversificada</div><button type="button" class="cp" style="--b:#1565C0;--f:#E3F2FD" onclick="window.open('https://marobecosta.github.io/tec-central-jogos-2026/','_blank')"><span class="n">3</span><span class="e">💻</span><span>Tecnologia e Inovação<small>jogos dos blocos · aberto</small><span class="dv">diversificada</span></span><i class="tk"></i></button><button type="button" class="cp tr" style="--b:#00838F;--f:#E0F7FA"><span class="n">4</span><span class="e">🤖</span><span>Robótica<small>🔒 em breve</small><span class="dv">diversificada</span></span><i class="tk lk">🔒</i></button><button type="button" class="cp on" style="--b:#AD1457;--f:#FCE4EC"><span class="n">5</span><span class="e">💰</span><span>Educação Financeira<small>escolhida para esta aula</small><span class="dv">diversificada</span></span><i class="tk">✓</i></button><button type="button" class="cp tr" style="--b:#6A1B9A;--f:#F3E5F5"><span class="n">6</span><span class="e">📖</span><span>Orientação de Estudos de Matemática<small>🔒 em breve</small><span class="dv">diversificada</span></span><i class="tk lk">🔒</i></button><button type="button" class="cp tr" style="--b:#2E7D32;--f:#E8F5E9"><span class="n">7</span><span class="e">🧫</span><span>Práticas Experimentais de Ciências<small>🔒 em breve</small><span class="dv">diversificada</span></span><i class="tk lk">🔒</i></button><button type="button" class="cp tr" style="--b:#E65100;--f:#FFF3E0"><span class="n">8</span><span class="e">📐</span><span>Práticas Experimentais de Matemática<small>🔒 em breve</small><span class="dv">diversificada</span></span><i class="tk lk">🔒</i></button><!-- DESATIVADO 29/10/2026 CLD-225 · mesmo motivo. Era: <button class="av" onclick="vai(3)">Avancar</button> --></div><div class="pg" id="p3"><!-- DESATIVADO 29/10/2026 CLD-225 · o voltar foi para o canto esquerdo do rodape fixo. --><div class="passo"><i class="ok">✓</i>área <i class="ok">✓</i>componente <i class="on">3</i>jogo</div><h2>💰 Educação Financeira · escolha a parada</h2><button type="button" class="cp" style="--b:#AD1457;--f:#FCE4EC" onclick="jogo('p1')"><span class="n">1</span><span class="e">🛒</span><span>Desejo ou necessidade?<small>3 minutos · separe o que a pessoa precisa do que ela só quer</small></span><i class="tk"></i></button><button type="button" class="cp" style="--b:#2E7D32;--f:#E8F5E9" onclick="jogo('p2')"><span class="n">2</span><span class="e">📉</span><span>A conta que encolhe<small>3 minutos · tire um item e veja o total mudar sozinho</small></span><i class="tk"></i></button><div class="jamarc">Terminou uma? Volte aqui e jogue a outra.</div></div></div></div><div id="rodape"><span class="rE"><button type="button" id="btVolta" onclick="volta()"><span class="ic">↩</span><span>voltar</span></button></span><span class="rM">Tecnologia e Inovação entra aqui só como ferramenta de apoio.</span><span class="rD"><button type="button" id="btAvanca" onclick="avanca()"><span class="ic">▶</span><span>avançar</span></button></span></div><script>/* ===== PARADAS DE EDUCAÇÃO FINANCEIRA · U02 do 6º ano =====
+   N.02.04.04_CENTRAL-DE-JOGOS_001 · CLD-131 · 27/10/2026
+   Pedido: PADRONIZADOR_004 · CLD-114
+
+   O QUE SÃO:
+   paradas OPCIONAIS de até 3 minutos dentro da aula de planilhas.
+   Rodam, mostram a ideia e devolvem o estudante à aula de onde ele veio.
+
+   A LIGAÇÃO COM PLANILHA É OBRIGATÓRIA EM TODAS:
+   · P1 · duas colunas que SOMAM sozinhas, como =SOMA() faz
+   · P2 · uma célula que MUDA quando outra muda, que é o que uma fórmula faz
+
+   CONTEÚDO 100% ORIGINAL.
+   O material da Néus que o Marcos mandou é de marca: dele saíram só as IDEIAS
+   (separar desejo de necessidade, ver a conta encolher). Nenhum personagem,
+   desenho, nome ou frase de lá foi copiado.
+
+   REGRAS QUE ESTE ARQUIVO SEGUE:
+   · linguagem de criança de 9 anos · 1 frase por linha
+   · piso de 16 px de letra e 20 px de emoji · borda grossa em tudo
+   · alternativas uma embaixo da outra · a certa nunca no mesmo lugar
+   · BIT azul, B.IA rosa
+   · nenhuma imagem de fora · funciona sem internet
+   · arrastar OU tocar: no Chromebook da escola o toque é mais confiável
+
+   COMO SE USA · UMA LINHA:
+     cjFinanceira.abre("p1", function(){ voltaParaAula() });
+*/
+(function () {
+  "use strict";
+
+  var RS = function (n) { return "R$ " + n.toFixed(2).replace(".", ",") };
+
+  /* ================= P1 · DESEJO OU NECESSIDADE? ================= */
+  var P1 = {
+    id: "p1", aula: 1, titulo: "Desejo ou necessidade?",
+    tempo: "3 minutos",
+    abertura: [
+      "Dona Neide foi ao mercado com R$ 100,00.",
+      "Ela voltou com a sacola cheia e sem dinheiro.",
+      "Olhe o que ela trouxe e separe em duas colunas."
+    ],
+    /* 8 itens. Nem tudo é óbvio: a escova de dente e o caderno existem
+       para o estudante perceber que barato nem sempre é desejo. */
+    itens: [
+      { e: "🍚", n: "Arroz",            v: 24.90, t: "preciso", por: "Sem comida ninguém passa o mês." },
+      { e: "🪥", n: "Escova de dente",  v:  7.50, t: "preciso", por: "Barato, mas é saúde. Necessidade também pode ser barata." },
+      { e: "🧴", n: "Sabonete",         v:  4.20, t: "preciso", por: "Higiene é necessidade, não luxo." },
+      { e: "📓", n: "Caderno da escola", v: 12.00, t: "preciso", por: "É material da escola: entra como necessidade." },
+      { e: "🍫", n: "Chocolate grande", v: 18.90, t: "quero",   por: "Gostoso, mas ninguém precisa dele para viver." },
+      { e: "🥤", n: "Refrigerante 2 L", v:  9.80, t: "quero",   por: "Dá para trocar por água e sobra dinheiro." },
+      { e: "🎮", n: "Jogo novo",        v: 14.90, t: "quero",   por: "Diversão é bom, mas pode esperar o mês que vem." },
+      { e: "🍟", n: "Salgadinho",       v:  7.80, t: "quero",   por: "Some em cinco minutos e não alimenta." }
+    ],
+    fim: function (st) {
+      var p = st.soma.preciso, q = st.soma.quero;
+      var L = [];
+      L.push(["Essa é a planilha da dona Neide.", ""]);
+      L.push(["Cada coluna somou sozinha, do jeito que uma planilha faz.", ""]);
+      if (q > p * 0.6)
+        L.push(["Olha o tamanho da coluna <b>eu quero<\/b>.", "Se ela cortar metade, sobra dinheiro para o mês inteiro."]);
+      else
+        L.push(["A coluna <b>eu preciso<\/b> ficou maior.", "É assim que a conta fecha no fim do mês."]);
+      return L;
+    }
+  };
+
+  /* ================= P2 · A CONTA QUE ENCOLHE ================= */
+  var P2 = {
+    id: "p2", aula: 2, titulo: "A conta que encolhe",
+    tempo: "3 minutos",
+    inicial: 182.00,
+    abertura: [
+      "A conta de luz e água da casa do Téo veio R$ 182,00.",
+      "A mãe dele pediu ajuda para baixar esse valor.",
+      "Escolha o que realmente ajuda e veja a célula mudar."
+    ],
+    /* 7 atitudes. Três NÃO ajudam, e isso é de propósito:
+       o estudante precisa descobrir que nem toda ideia economiza. */
+    atitudes: [
+      { e: "🚿", n: "Tomar banho de 5 minutos",           d: -24.00, ok: true,
+        por: "Banho curto é a maior economia da casa inteira." },
+      { e: "💡", n: "Apagar a luz ao sair do quarto",      d: -11.50, ok: true,
+        por: "Pouco por dia vira muito no fim do mês." },
+      { e: "🔌", n: "Tirar o carregador da tomada",        d:  -3.20, ok: true,
+        por: "Economiza pouco, mas economiza. Toda célula conta." },
+      { e: "🚰", n: "Fechar a torneira ao escovar",        d:  -8.40, ok: true,
+        por: "A torneira aberta gasta água sem ninguém usar." },
+      { e: "🧊", n: "Abrir a geladeira só o necessário",   d:  -6.90, ok: true,
+        por: "Cada abertura faz o motor trabalhar de novo." },
+      { e: "📺", n: "Deixar a TV ligada só de som",        d:   0.00, ok: false,
+        por: "A TV continua ligada. Isso não economiza nada." },
+      { e: "🪟", n: "Fechar a janela com a luz acesa",     d:   0.00, ok: false,
+        por: "A janela não muda a conta. A luz acesa, sim." }
+    ],
+    fim: function (st) {
+      var econ = P2.inicial - st.valor, ano = econ * 12;
+      return [
+        ["A conta saiu de " + RS(P2.inicial) + " para <b>" + RS(st.valor) + "<\/b>.", ""],
+        ["A célula mudou sozinha a cada escolha certa.", "Isso é o que uma fórmula faz numa planilha."],
+        ["Em um ano, essa economia dá <b>" + RS(ano) + "<\/b>.", "É só multiplicar por 12, numa célula só."]
+      ];
+    }
+  };
+
+  var PARADAS = { p1: P1, p2: P2 };
+
+  /* ---------------- a tela ---------------- */
+  var tela = null, aoFimGuardado = null, ST = null;
+
+  function el(tag, cls, html) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (html != null) e.innerHTML = html;
+    return e;
+  }
+  function fala(quem, texto) {
+    /* BIT azul · B.IA rosa. Nunca o robô genérico no lugar deles. */
+    var b = el("div", "efFala ef" + quem);
+    b.innerHTML = '<span class="q">' + (quem === "Bit" ? "🔵" : "🌸") + '<\/span>' +
+                  '<b>' + (quem === "Bit" ? "BIT" : "B.IA") + '<\/b>' +
+                  '<span class="tx">' + texto + '<\/span>';
+    return b;
+  }
+
+  function fecha() {
+    if (tela && tela.parentNode) tela.remove();
+    tela = null; ST = null;
+    var cb = aoFimGuardado; aoFimGuardado = null;
+    if (cb) cb();
+  }
+
+  function moldura(p) {
+    tela = el("div", "efTela");
+    tela.setAttribute("role", "dialog");
+    tela.setAttribute("aria-label", "Parada de educação financeira: " + p.titulo);
+    var cx = el("div", "efCx");
+    var top = el("div", "efTop");
+    top.innerHTML = '<span class="efSel">💰 parada da aula<\/span>' +
+                    '<span class="efTt">' + p.titulo + '<\/span>' +
+                    '<span class="efTp">⏱️ ' + p.tempo + '<\/span>';
+    var sair = el("button", "efSair", "✖ sair");
+    sair.type = "button";
+    sair.setAttribute("aria-label", "sair da parada e voltar para a aula");
+    sair.onclick = fecha;
+    top.appendChild(sair);
+    cx.appendChild(top);
+    var corpo = el("div", "efCorpo");
+    cx.appendChild(corpo);
+    tela.appendChild(cx);
+    document.body.appendChild(tela);
+    return corpo;
+  }
+
+  function abertura(corpo, p, segue) {
+    var c = el("div", "efPasso");
+    p.abertura.forEach(function (l) { c.appendChild(el("p", "efL", l)) });
+    c.appendChild(fala("Bit", "Leia com calma. Não tem relógio correndo aqui."));
+    var b = el("button", "efBt efBtV", "▶ começar");
+    b.type = "button"; b.onclick = function () { c.remove(); segue() };
+    c.appendChild(b);
+    corpo.appendChild(c);
+  }
+
+  /* ================= P1 · a mesa de separar ================= */
+  function rodaP1(corpo) {
+    ST = { soma: { preciso: 0, quero: 0 }, feitos: 0, erros: 0 };
+    var p = P1;
+    var c = el("div", "efPasso");
+    c.appendChild(el("p", "efL", "Toque num item e depois na coluna onde ele entra."));
+    c.appendChild(el("p", "efL", "Também dá para arrastar, se preferir."));
+
+    var mesa = el("div", "efMesa");
+    var saco = el("div", "efSaco");
+    saco.appendChild(el("div", "efSacoT", "🛒 na sacola"));
+    var lista = el("div", "efLista");
+    saco.appendChild(lista);
+
+    var cols = el("div", "efCols");
+    var colA = coluna("preciso", "✅ eu preciso", "#2E7D32");
+    var colB = coluna("quero", "💛 eu quero", "#E65100");
+    cols.appendChild(colA.box); cols.appendChild(colB.box);
+
+    mesa.appendChild(saco); mesa.appendChild(cols);
+    c.appendChild(mesa);
+    var aviso = el("div", "efAviso", "");
+    c.appendChild(aviso);
+    corpo.appendChild(c);
+
+    var escolhido = null;
+    function coluna(tipo, rot, cor) {
+      var box = el("div", "efCol");
+      box.style.borderColor = cor;
+      box.dataset.tipo = tipo;
+      box.innerHTML = '<div class="efColT" style="background:' + cor + '">' + rot + '<\/div>';
+      var dentro = el("div", "efColD");
+      var tot = el("div", "efTot");
+      tot.innerHTML = '<span class="efTotR">total<\/span><span class="efTotV">R$ 0,00<\/span>';
+      box.appendChild(dentro); box.appendChild(tot);
+      box.onclick = function () { if (escolhido) poe(escolhido, tipo) };
+      box.addEventListener("dragover", function (ev) { ev.preventDefault(); box.classList.add("sobre") });
+      box.addEventListener("dragleave", function () { box.classList.remove("sobre") });
+      box.addEventListener("drop", function (ev) {
+        ev.preventDefault(); box.classList.remove("sobre");
+        var i = ev.dataTransfer.getData("text/plain");
+        var alvo = lista.querySelector('[data-i="' + i + '"]');
+        if (alvo) poe(alvo, tipo);
+      });
+      return { box: box, dentro: dentro, tot: tot };
+    }
+    var COL = { preciso: colA, quero: colB };
+
+    p.itens.forEach(function (it, i) {
+      var card = el("button", "efItem");
+      card.type = "button"; card.draggable = true; card.dataset.i = i;
+      card.innerHTML = '<span class="e">' + it.e + '<\/span>' +
+                       '<span class="n">' + it.n + '<\/span>' +
+                       '<span class="v">' + RS(it.v) + '<\/span>';
+      card.onclick = function (ev) {
+        ev.stopPropagation();
+        if (escolhido === card) { card.classList.remove("peg"); escolhido = null; return }
+        if (escolhido) escolhido.classList.remove("peg");
+        escolhido = card; card.classList.add("peg");
+        aviso.textContent = "Agora toque na coluna onde " + it.n.toLowerCase() + " entra.";
+      };
+      card.addEventListener("dragstart", function (ev) { ev.dataTransfer.setData("text/plain", String(i)) });
+      lista.appendChild(card);
+    });
+
+    function poe(card, tipo) {
+      var i = +card.dataset.i, it = p.itens[i];
+      var certo = (it.t === tipo);
+      escolhido = null; card.classList.remove("peg");
+      if (!certo) {
+        ST.erros++;
+        card.classList.add("errou");
+        setTimeout(function () { card.classList.remove("errou") }, 700);
+        aviso.innerHTML = '<span class="efNao">Ainda não.<\/span> ' + it.por;
+        return;
+      }
+      card.remove();
+      var dentro = COL[tipo].dentro;
+      var l = el("div", "efPosto");
+      l.innerHTML = '<span class="e">' + it.e + '<\/span><span class="n">' + it.n +
+                    '<\/span><span class="v">' + RS(it.v) + '<\/span>';
+      dentro.appendChild(l);
+      ST.soma[tipo] += it.v; ST.feitos++;
+      /* a célula do total muda sozinha: é isso que uma planilha faz */
+      var tv = COL[tipo].tot.querySelector(".efTotV");
+      tv.textContent = RS(ST.soma[tipo]);
+      tv.classList.remove("pisca"); void tv.offsetWidth; tv.classList.add("pisca");
+      aviso.innerHTML = '<span class="efSim">Isso!<\/span> ' + it.por;
+      if (ST.feitos === p.itens.length) setTimeout(function () { c.remove(); fechamento(corpo, p) }, 900);
+    }
+  }
+
+  /* ================= P2 · a conta que encolhe ================= */
+  function rodaP2(corpo) {
+    var p = P2;
+    ST = { valor: p.inicial, feitos: 0, acertos: 0 };
+    var c = el("div", "efPasso");
+    c.appendChild(el("p", "efL", "Escolha uma atitude e veja a célula da conta."));
+    c.appendChild(el("p", "efL", "Nem toda ideia economiza. Repare bem."));
+
+    var cel = el("div", "efCel");
+    cel.innerHTML = '<div class="efCelR">conta do mês<\/div>' +
+                    '<div class="efCelV" id="efCelV">' + RS(p.inicial) + '<\/div>' +
+                    '<div class="efCelF">a célula muda quando você escolhe certo<\/div>';
+    c.appendChild(cel);
+
+    var aviso = el("div", "efAviso", "");
+    var lista = el("div", "efAtit");
+    /* a certa nunca no mesmo lugar: a ordem é sorteada a cada abertura */
+    var ordem = p.atitudes.map(function (a, i) { return i }).sort(function () { return Math.random() - 0.5 });
+    ordem.forEach(function (i) {
+      var a = p.atitudes[i];
+      var b = el("button", "efAt");
+      b.type = "button";
+      b.innerHTML = '<span class="e">' + a.e + '<\/span><span class="n">' + a.n + '<\/span>';
+      b.onclick = function () {
+        if (b.disabled) return;
+        b.disabled = true; ST.feitos++;
+        if (a.ok) {
+          ST.acertos++;
+          ST.valor += a.d;
+          b.classList.add("simAt");
+          b.innerHTML += '<span class="d">' + RS(a.d).replace("R$ -", "− R$ ") + '<\/span>';
+          var v = document.getElementById("efCelV");
+          v.textContent = RS(ST.valor);
+          v.classList.remove("pisca"); void v.offsetWidth; v.classList.add("pisca");
+          aviso.innerHTML = '<span class="efSim">Boa!<\/span> ' + a.por;
+        } else {
+          b.classList.add("naoAt");
+          b.innerHTML += '<span class="d">− R$ 0,00<\/span>';
+          aviso.innerHTML = '<span class="efNao">Essa não muda nada.<\/span> ' + a.por;
+        }
+        if (ST.feitos === p.atitudes.length) setTimeout(function () { c.remove(); fechamento(corpo, p) }, 1100);
+      };
+      lista.appendChild(b);
+    });
+    c.appendChild(lista); c.appendChild(aviso);
+    corpo.appendChild(c);
+  }
+
+  /* ================= o fechamento, igual nas duas ================= */
+  function fechamento(corpo, p) {
+    var c = el("div", "efPasso efFim");
+    c.appendChild(el("div", "efFimT", "✅ parada concluída"));
+    p.fim(ST).forEach(function (par) {
+      c.appendChild(el("p", "efL", par[0]));
+      if (par[1]) c.appendChild(el("p", "efL efL2", par[1]));
+    });
+    if (p.id === "p1") {
+      var t = el("div", "efPlan");
+      t.innerHTML =
+        '<div class="efPlanT">📊 a planilha da dona Neide<\/div>' +
+        '<table><tr><th>coluna<\/th><th>itens<\/th><th>total<\/th><\/tr>' +
+        '<tr><td>✅ eu preciso<\/td><td>' + contaTipo("preciso") + '<\/td><td class="v">' + RS(ST.soma.preciso) + '<\/td><\/tr>' +
+        '<tr><td>💛 eu quero<\/td><td>' + contaTipo("quero") + '<\/td><td class="v">' + RS(ST.soma.quero) + '<\/td><\/tr>' +
+        '<tr class="tot"><td>soma<\/td><td>' + P1.itens.length + '<\/td><td class="v">' + RS(ST.soma.preciso + ST.soma.quero) + '<\/td><\/tr><\/table>' +
+        '<div class="efPlanF">Na planilha isso é uma fórmula só: <code>=SOMA(B2:B5)<\/code><\/div>';
+      c.appendChild(t);
+    }
+    c.appendChild(fala("Bia", p.id === "p1"
+      ? "Separar antes de comprar é o primeiro passo. A planilha só mostra o que você já decidiu."
+      : "Uma célula que muda sozinha quando outra muda: é isso que você vai montar na aula."));
+    var b = el("button", "efBt efBtV", "↩ voltar para a aula");
+    b.type = "button"; b.onclick = fecha;
+    c.appendChild(b);
+    corpo.appendChild(c);
+    try { c.scrollIntoView({ block: "start" }) } catch (e) {}
+  }
+  function contaTipo(t) { return P1.itens.filter(function (i) { return i.t === t }).length }
+
+  /* ---------------- a API de uma linha ---------------- */
+  function abre(qual, aoFim) {
+    var p = PARADAS[String(qual || "p1").toLowerCase()];
+    if (!p) { if (aoFim) aoFim(); return false; }
+    if (tela) return false;              /* uma de cada vez */
+    aoFimGuardado = aoFim || null;
+    var corpo = moldura(p);
+    abertura(corpo, p, function () { (p.id === "p1" ? rodaP1 : rodaP2)(corpo) });
+    document.addEventListener("keydown", function esc(ev) {
+      if (ev.key === "Escape") { document.removeEventListener("keydown", esc); fecha() }
+    });
+    return true;
+  }
+
+  window.cjFinanceira = {
+    abre: abre, fecha: fecha,
+    paradas: PARADAS,
+    lista: function () { return Object.keys(PARADAS) }
+  };
+})();
+</script><script>
+/* CLD-225 · toda tela tem a linha fixa de topo E a linha fixa de rodape, em janela ou em tela cheia.
+   O Avançar mora no rodape, nunca no fim das opções (HGov H.11.07). */
+var PASSO=1;
+function mede(){
+  try{
+    var t=document.getElementById("topo"), r=document.getElementById("rodape");
+    var ht=t?Math.ceil(t.getBoundingClientRect().height):0;
+    var hr=r?Math.ceil(r.getBoundingClientRect().height):0;
+    document.body.style.paddingTop=(ht+8)+"px";
+    document.body.style.paddingBottom=(hr+12)+"px";
+  }catch(e){}
+}
+function avanca(){ if(PASSO<3) vai(PASSO+1) }
+function volta(){ if(PASSO>1) vai(PASSO-1) }
+function pintaRodape(){
+  var a=document.getElementById("btAvanca"), v=document.getElementById("btVolta");
+  if(v){ v.disabled = (PASSO===1) }
+  var c=document.getElementById("contador");
+  if(c) c.textContent = "tela " + PASSO + " de 3";
+  if(a){
+    a.disabled = (PASSO===3);
+    a.querySelector("span:last-child").textContent = (PASSO===3) ? "escolha acima" : "avançar";
+  }
+  mede();
+}
+function vai(n){
+  for(var i=1;i<=3;i++){ var e=document.getElementById("p"+i); if(e) e.classList.toggle("on", i===n) }
+  window.scrollTo(0,0);
+  PASSO=n;
+  try{ localStorage.setItem("efPasso", String(n)) }catch(e){}
+  pintaRodape();
+}
+function jogo(q){
+  if(!window.cjFinanceira){ alert("As paradas nao carregaram. Avise o professor."); return }
+  window.cjFinanceira.abre(q, function(){ vai(3) });
+}
+(function(){
+  var n=1; try{ n=parseInt(localStorage.getItem("efPasso")||"1",10)||1 }catch(e){}
+  vai(n>=1&&n<=3?n:1);
+  try{ if(window.ResizeObserver){ var ro=new ResizeObserver(mede);
+    ro.observe(document.getElementById("topo")); ro.observe(document.getElementById("rodape")) } }catch(e){}
+  window.addEventListener("resize",mede);
+  document.addEventListener("fullscreenchange",mede);
+  window.addEventListener("load",mede);
+  mede();
+})();
+</script></body></html>
